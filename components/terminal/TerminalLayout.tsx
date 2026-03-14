@@ -12,7 +12,7 @@ import { MonthlyStatsWidget } from './MonthlyStatsWidget';
 import { ChartWidget } from './ChartWidget';
 import { OrderBookWidget } from './OrderBookWidget';
 import { WhisperWrapper } from './WhisperWrapper';
-import { Plus, RotateCcw, LayoutGrid, Activity, Wallet, Target, ListOrdered, Calendar, LineChart, BookOpen } from 'lucide-react';
+import { Activity, Wallet, Target, ListOrdered, Calendar, LineChart, BookOpen } from 'lucide-react';
 
 const initialLayout: IJsonModel = {
   global: {
@@ -208,26 +208,6 @@ export function TerminalLayout() {
 
   const onModelChange = (newModel: Model) => {
     localStorage.setItem('deeptrade-layout-v3', JSON.stringify(newModel.toJson()));
-  };
-
-  const resetLayout = () => {
-    const newModel = Model.fromJson(initialLayout);
-    setModel(newModel);
-    localStorage.setItem('deeptrade-layout-v3', JSON.stringify(newModel.toJson()));
-    setIsMenuOpen(false);
-  };
-
-  const addWidget = (widget: typeof AVAILABLE_WIDGETS[0]) => {
-    if (!model) return;
-
-    model.doAction(Actions.addNode({
-      type: 'tab',
-      component: widget.component,
-      name: widget.name,
-      config: widget.config,
-    }, model.getRoot().getId(), DockLocation.CENTER, -1));
-
-    setIsMenuOpen(false);
   };
 
   const onRenderTab = (node: TabNode, renderState: any) => {

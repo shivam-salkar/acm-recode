@@ -23,9 +23,9 @@ import Link from 'next/link';
 import { useTerminalStore } from '@/hooks/useTerminalStore';
 
 export default function Home() {
-  const { 
+  const {
     symbol, setSymbol,
-    timeframe, setTimeframe, 
+    timeframe, setTimeframe,
     activeTool, setActiveTool,
     isSearchOpen, setSearchOpen,
     isSettingsOpen, setSettingsOpen,
@@ -57,7 +57,7 @@ export default function Home() {
             <span>DeepTrade</span>
           </Link>
 
-          <div 
+          <div
             onClick={() => setSearchOpen(true)}
             className="flex items-center space-x-1 bg-[#0B0E11] rounded px-3 py-1.5 border border-[#2A2E39] hover:border-[#A0AEC0]/50 transition-colors cursor-pointer group"
           >
@@ -67,7 +67,7 @@ export default function Home() {
 
           <div className="flex items-center space-x-4 text-xs font-semibold text-gray-400">
             {['1m', '5m', '1h', 'D'].map((tf) => (
-              <button 
+              <button
                 key={tf}
                 onClick={() => setTimeframe(tf)}
                 className={`transition-colors ${timeframe === tf ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
@@ -81,9 +81,9 @@ export default function Home() {
               <span>Indicators</span>
             </button>
             <div className="w-px h-4 bg-[#2A2E39]" />
-            
+
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setIsAddWidgetOpen(!isAddWidgetOpen)}
                 className="flex items-center space-x-1 hover:text-gray-200 transition-colors"
               >
@@ -110,7 +110,7 @@ export default function Home() {
               )}
             </div>
 
-            <button 
+            <button
               onClick={() => setLayoutAction({ type: 'RESET_LAYOUT' })}
               className="flex items-center space-x-1 hover:text-red-400 transition-colors text-gray-400"
               title="Reset Layout"
@@ -121,19 +121,19 @@ export default function Home() {
         </div>
 
         <div className="flex items-center space-x-4 text-gray-400">
-          <motion.button 
-            whileHover={{ scale: 1.1 }} 
-            whileTap={{ scale: 0.95 }} 
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setNotificationsOpen(!isNotificationsOpen)}
             className={`transition-colors relative ${isNotificationsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
           >
             <Bell size={16} />
             {isNotificationsOpen && <div className="absolute top-6 right-0 w-48 bg-[#131722] border border-[#2A2E39] p-2 text-xs rounded shadow-xl text-left z-50">No new notifications</div>}
           </motion.button>
-          
-          <motion.button 
-            whileHover={{ scale: 1.1 }} 
-            whileTap={{ scale: 0.95 }} 
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setSettingsOpen(!isSettingsOpen)}
             className={`transition-colors relative ${isSettingsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
           >
@@ -149,7 +149,7 @@ export default function Home() {
                   <div onClick={() => { setActiveSettingsTab('audio'); setSettingsOpen(false); }} className="px-3 py-2 hover:bg-[#2A2E39] cursor-pointer transition-colors text-gray-300 hover:text-white flex justify-between">Audio & Alerts <span>❯</span></div>
                   <div onClick={() => { setActiveSettingsTab('security'); setSettingsOpen(false); }} className="px-3 py-2 hover:bg-[#2A2E39] cursor-pointer transition-colors text-gray-300 hover:text-white flex justify-between">Security <span>❯</span></div>
                   <div className="w-full h-px bg-[#2A2E39] my-1" />
-                  <div 
+                  <div
                     onClick={() => {
                       localStorage.removeItem('deeptrade-layout-v3');
                       window.location.reload();
@@ -163,20 +163,20 @@ export default function Home() {
             )}
           </motion.button>
 
-          <motion.button 
-            whileHover={{ scale: 1.1 }} 
-            whileTap={{ scale: 0.95 }} 
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleFullscreen}
             className="hover:text-gray-200 transition-colors"
           >
             <Maximize size={16} />
           </motion.button>
-          
+
           <div className="w-px h-4 bg-[#2A2E39]" />
-          
-          <motion.button 
-            whileHover={{ scale: 1.1 }} 
-            whileTap={{ scale: 0.95 }} 
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setProfileOpen(!isProfileOpen)}
             className={`transition-colors relative ${isProfileOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
           >
@@ -210,10 +210,10 @@ export default function Home() {
         <div className="flex-1 relative">
           {isSearchOpen && (
             <div className="absolute top-4 left-4 z-50 bg-[#131722] border border-[#2A2E39] rounded shadow-2xl p-4 w-64">
-              <input 
+              <input
                 autoFocus
-                type="text" 
-                placeholder="Search symbol..." 
+                type="text"
+                placeholder="Search symbol..."
                 className="w-full bg-[#0B0E11] text-gray-200 border border-[#2A2E39] rounded px-3 py-2 text-sm focus:outline-none focus:border-[#A0AEC0]"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && e.currentTarget.value) {
@@ -229,14 +229,14 @@ export default function Home() {
 
           <AnimatePresence>
             {activeSettingsTab && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
                 onClick={() => setActiveSettingsTab(null)}
               >
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0.95, y: 20 }}
                   animate={{ scale: 1, y: 0 }}
                   exit={{ scale: 0.95, y: 20 }}
@@ -248,7 +248,7 @@ export default function Home() {
                       <Settings size={18} className="text-[#A0AEC0]" />
                       <span>Platform Settings</span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setActiveSettingsTab(null)}
                       className="text-gray-500 hover:text-gray-200 transition-colors"
                     >
