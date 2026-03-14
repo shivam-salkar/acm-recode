@@ -1,0 +1,114 @@
+@import "tailwindcss";
+@import "flexlayout-react/style/dark.css";
+@import url('https://fonts.cdnfonts.com/css/google-sans');
+
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-card: #09090b;
+  --color-card-foreground: #fafafa;
+  --color-popover: #09090b;
+  --color-popover-foreground: #fafafa;
+  --color-primary: #fafafa;
+  --color-primary-foreground: #18181b;
+  --color-secondary: #27272a;
+  --color-secondary-foreground: #fafafa;
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa;
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+  --color-destructive: #7f1d1d;
+  --color-destructive-foreground: #fafafa;
+  --color-border: #27272a;
+  --color-input: #27272a;
+  --color-ring: #d4d4d8;
+  
+  --color-bullish: #10b981;
+  --color-bearish: #ef4444;
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  --font-sans: 'Google Sans Medium', 'Google Sans', 'Product Sans', sans-serif;
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
+
+@layer utilities {
+  .scanlines {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1)
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  /* FlexLayout overrides for shadcn look */
+  .flexlayout__layout {
+    background-color: var(--color-background);
+  }
+  .flexlayout__tabset {
+    background-color: var(--color-card);
+  }
+  .flexlayout__tabset-selected {
+    border: 0px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    background-image: none !important;
+  }
+  .flexlayout__tabset-selected .flexlayout__tabset_header_outer {
+    background-image: none !important;
+    background-color: var(--color-background);
+  }
+  .flexlayout__tabset-maximized {
+    background-image: none !important;
+  }
+  .flexlayout__tabset_header {
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: none !important;
+  }
+  .flexlayout__tab_button {
+    background-color: transparent;
+    color: var(--color-muted-foreground);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .flexlayout__tab_button--selected {
+    background-color: var(--color-card);
+    color: var(--color-foreground);
+    border-top: 2px solid var(--color-primary);
+  }
+  .flexlayout__tab {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .flexlayout__splitter {
+    background-color: var(--color-border);
+  }
+  .flexlayout__border {
+    background-color: var(--color-background);
+  }
+}
