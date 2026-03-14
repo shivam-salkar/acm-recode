@@ -22,6 +22,74 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useTerminalStore } from '@/hooks/useTerminalStore';
 
+function BootAnimation({ onComplete }: { onComplete: () => void }) {
+  const [bootText, setBootText] = useState<string[]>([]);
+  const bootSequence = [
+    "INITIALIZING DEEPTRADE KERNEL v3.0.1...",
+    "ESTABLISHING SECURE CONNECTION...",
+    "LOADING WORKSPACE LAYOUT...",
+    "VERIFYING ENCRYPTION KEYS...",
+    "CONNECTING DATA STREAMS [BINANCE_WSS]...",
+    "SYSTEM ONLINE."
+  ];
+
+  React.useEffect(() => {
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex < bootSequence.length) {
+        setBootText(prev => [...prev, bootSequence[currentIndex]]);
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+        setTimeout(onComplete, 600);
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+      className="absolute inset-0 z-[100] bg-[#0B0E11] flex flex-col items-center justify-center font-mono text-[#A0AEC0] overflow-hidden"
+    >
+      <div className="w-full max-w-2xl px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center space-x-3 mb-8"
+        >
+          <Activity size={32} className="text-[#A0AEC0]" />
+          <h1 className="text-3xl font-bold tracking-[0.2em]">DEEPTRADE</h1>
+        </motion.div>
+        
+        <div className="space-y-2 text-sm md:text-base h-64">
+          {bootText.map((text, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className={`${i === bootSequence.length - 1 ? "text-green-400 font-bold" : "text-gray-400"}`}
+            >
+              <span className="text-gray-600 mr-4">{`[${new Date().toISOString().split('T')[1].slice(0, 8)}]`}</span>
+              {text}
+            </motion.div>
+          ))}
+          {bootText.length < 6 && (
+            <motion.div 
+              animate={{ opacity: [1, 0] }} 
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="w-3 h-5 bg-[#A0AEC0] mt-2 inline-block"
+            />
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const {
     symbol, setSymbol,
@@ -36,6 +104,7 @@ export default function Home() {
 
   const [activeSettingsTab, setActiveSettingsTab] = useState<string | null>(null);
   const [isAddWidgetOpen, setIsAddWidgetOpen] = useState(false);
+  const [isBooting, setIsBooting] = useState(true);
 
   const handleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -48,7 +117,11 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col h-screen w-screen bg-[#0B0E11] text-gray-200 overflow-hidden font-sans">
+    <main className="flex flex-col h-screen w-screen bg-[#0B0E11] text-gray-200 overflow-hidden font-sans relative">
+      <AnimatePresence>
+        {isBooting && <BootAnimation onComplete={() => setIsBooting(false)} />}
+      </AnimatePresence>
+
       {/* Top Navigation Bar */}
       <header className="h-12 border-b border-[#2A2E39] bg-[#131722] flex items-center justify-between px-4 shrink-0 z-20 relative">
         <div className="flex items-center space-x-6">
