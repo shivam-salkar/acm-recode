@@ -15,6 +15,8 @@ interface TerminalState {
   setNotificationsOpen: (open: boolean) => void;
   isProfileOpen: boolean;
   setProfileOpen: (open: boolean) => void;
+  layoutAction: any;
+  setLayoutAction: (action: any) => void;
 }
 
 export const useTerminalStore = create<TerminalState>((set) => ({
@@ -32,4 +34,6 @@ export const useTerminalStore = create<TerminalState>((set) => ({
   setNotificationsOpen: (isNotificationsOpen) => set({ isNotificationsOpen }),
   isProfileOpen: false,
   setProfileOpen: (isProfileOpen) => set({ isProfileOpen }),
+  layoutAction: null,
+  setLayoutAction: (layoutAction) => set({ layoutAction }),
 }));

@@ -6,15 +6,15 @@ import { Activity, BarChart2, Cpu, Crosshair, ExternalLink, ShieldAlert, Zap, La
 import Link from 'next/link';
 
 export default function LandingPage() {
-  const [candles, setCandles] = useState<{x: number, o: number, c: number, h: number, l: number, up: boolean}[]>([]);
-  
+  const [candles, setCandles] = useState<{ x: number, o: number, c: number, h: number, l: number, up: boolean }[]>([]);
+
   useEffect(() => {
     async function fetchMarketData() {
       try {
         // Fetch 200 days of real BTC/USDT data from public API
         const res = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=200');
         const rawData = await res.json();
-        
+
         // Parse Open, High, Low, Close
         const parsed = rawData.map((d: any) => ({
           o: parseFloat(d[1]),
@@ -26,7 +26,7 @@ export default function LandingPage() {
         // To make the background perfectly loop infinitely, we smoothly interpolate 
         // the last 30 candles to end exactly at the first candle's opening price.
         const firstPrice = parsed[0].o;
-        for(let i = 170; i < 200; i++) {
+        for (let i = 170; i < 200; i++) {
           const progress = (i - 170) / 30; // 0.0 to 1.0
           const shift = (firstPrice - parsed[i].c) * progress;
           parsed[i].o += shift;
@@ -44,13 +44,13 @@ export default function LandingPage() {
           // Scale price to SVG Y-coordinates (SVG 0 is top, 400 is bottom)
           // We constrain it between Y: 40 and Y: 360 to leave padding
           const scaleY = (val: number) => 360 - ((val - minPrice) / range) * 320;
-          
+
           const openY = scaleY(d.o);
           const closeY = scaleY(d.c);
           const highY = scaleY(d.h);
           const lowY = scaleY(d.l);
           const isUp = d.c >= d.o; // Real price went up
-          
+
           return {
             x: i * 20, // 200 candles * 20px spacing = 4000 total width
             o: Math.min(openY, closeY),  // The physical top of the candle body
@@ -67,7 +67,7 @@ export default function LandingPage() {
         console.error("Failed to fetch realistic data:", err);
       }
     }
-    
+
     fetchMarketData();
   }, []);
 
@@ -84,16 +84,16 @@ export default function LandingPage() {
     <main className="min-h-screen bg-[#0B0E11] text-gray-200 font-sans selection:bg-[#A0AEC0] selection:text-[#0B0E11] overflow-x-hidden relative">
       <div className="absolute top-0 w-full h-[120vh] z-0 overflow-hidden pointer-events-none">
         {/* Animated Candlestick Chart SVG Background */}
-        <motion.div 
+        <motion.div
           className="absolute inset-x-0 top-32 h-[600px] w-[200vw]"
           animate={{ x: [0, "-50%"] }}
           transition={{ repeat: Infinity, ease: "linear", duration: 80 }}
         >
-          <svg 
-            width="200%" 
-            height="100%" 
-            viewBox="0 0 8000 400" 
-            preserveAspectRatio="none" 
+          <svg
+            width="200%"
+            height="100%"
+            viewBox="0 0 8000 400"
+            preserveAspectRatio="none"
             className="w-full h-full opacity-70"
           >
             <g>
@@ -115,7 +115,7 @@ export default function LandingPage() {
             </g>
           </svg>
         </motion.div>
-        
+
         {/* Fade Out Gradient to blend into below sections */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B0E11]/80 to-[#0B0E11]" />
       </div>
@@ -147,12 +147,12 @@ export default function LandingPage() {
         variants={stagger}
         className="pt-40 pb-20 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10"
       >
-        <motion.div variants={fadeIn} className="inline-flex items-center justify-center space-x-2 px-4 py-1.5 rounded-full border border-[#2A2E39] bg-[#131722]/80 backdrop-blur-sm text-sm text-gray-400 mb-8">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A0AEC0] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#A0AEC0]"></span>
-          </span>
-          <span>v2.0 Beta Terminal is live</span>
+        <motion.div
+          variants={fadeIn}
+          className="mb-8 inline-flex items-center gap-3 rounded-full border border-[#2A2E39] bg-[#131722]/80 px-6 py-3 backdrop-blur-sm"
+        >
+          <Activity size={24} className="text-[#A0AEC0]" />
+          <span className="text-[2rem] font-bold tracking-widest uppercase text-[#A0AEC0]">DeepTrade</span>
         </motion.div>
 
         <motion.h1 variants={fadeIn} className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
@@ -218,11 +218,12 @@ export default function LandingPage() {
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -8, scale: 1.01 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
               className="p-6 rounded-xl bg-[#131722]/80 backdrop-blur border border-[#2A2E39] hover:border-[#A0AEC0]/40 hover:bg-[#1a1e2b] transition-all group"
             >
-              <div className="w-12 h-12 rounded-lg bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 transition-all">
+              <div className="w-12 h-12 rounded-lg bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
                 <feature.icon size={24} />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-200">{feature.title}</h3>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Model, TabNode, IJsonModel, Actions, DockLocation } from 'flexlayout-react';
 import { useMarketData } from '@/hooks/useMarketData';
+import { useTerminalStore } from '@/hooks/useTerminalStore';
 import { StatCardWidget } from './StatCardWidget';
 import { AccountBalanceWidget } from './AccountBalanceWidget';
 import { RewardRiskWidget } from './RewardRiskWidget';
@@ -117,7 +118,7 @@ const initialLayout: IJsonModel = {
   }
 };
 
-const AVAILABLE_WIDGETS = [
+export const AVAILABLE_WIDGETS = [
   { name: 'This Week', component: 'stat_week' },
   { name: 'This Month', component: 'stat_month' },
   { name: 'This Year', component: 'stat_year' },
@@ -132,7 +133,7 @@ const AVAILABLE_WIDGETS = [
 
 export function TerminalLayout() {
   const [model, setModel] = useState<Model | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { layoutAction, setLayoutAction } = useTerminalStore();
 
   // Initialize high-frequency market data source
   useMarketData();
@@ -157,6 +158,23 @@ export function TerminalLayout() {
       setModel(initModel);
     }, 0);
   }, []);
+
+  useEffect(() => {
+    if (layoutAction && model) {
+      if (layoutAction.type === 'ADD_WIDGET') {
+        model.doAction(Actions.addNode({
+          type: 'tab',
+          component: layoutAction.widget.component,
+          name: layoutAction.widget.name,
+          config: layoutAction.widget.config,
+        }, model.getRoot().getId(), DockLocation.CENTER, -1));
+      } else if (layoutAction.type === 'RESET_LAYOUT') {
+        localStorage.removeItem('deeptrade-layout-v3');
+        setTimeout(() => setModel(Model.fromJson(initialLayout)), 0);
+      }
+      setTimeout(() => setLayoutAction(null), 0);
+    }
+  }, [layoutAction, model, setLayoutAction]);
 
   const factory = (node: TabNode) => {
     const component = node.getComponent();
@@ -251,50 +269,8 @@ export function TerminalLayout() {
   if (!model) return <div className="h-full w-full bg-background flex items-center justify-center text-muted-foreground">Initializing Terminal...</div>;
 
   return (
-    <div className="h-full w-full relative bg-background">
-      <div className="absolute inset-0 noise z-0" />
-
-      {/* Floating Toolbar */}
-      <div className="absolute top-4 right-4 z-50 flex flex-col items-end gap-2">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-md shadow-lg hover:bg-muted text-sm font-medium text-foreground transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Add Widget
-          </button>
-          <button
-            onClick={resetLayout}
-            className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-md shadow-lg hover:bg-muted text-sm font-medium text-foreground transition-colors"
-            title="Reset Layout"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
-        </div>
-
-        {isMenuOpen && (
-          <div className="w-64 bg-card border border-border rounded-md shadow-xl overflow-hidden flex flex-col">
-            <div className="p-3 border-b border-border bg-muted/50 flex items-center gap-2 text-sm font-medium text-foreground">
-              <LayoutGrid className="w-4 h-4 text-muted-foreground" />
-              Available Widgets
-            </div>
-            <div className="max-h-[300px] overflow-y-auto p-1">
-              {AVAILABLE_WIDGETS.map((widget, i) => (
-                <button
-                  key={i}
-                  onClick={() => addWidget(widget)}
-                  className="w-full text-left px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
-                >
-                  {widget.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="relative z-10 h-full w-full pt-16">
+    <div className="h-full w-full relative bg-[#0B0E11]">
+      <div className="relative z-10 h-full w-full">
         <Layout model={model} factory={factory} onModelChange={onModelChange} onRenderTab={onRenderTab} />
       </div>
     </div>
