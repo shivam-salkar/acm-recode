@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { createChart, IChartApi, ISeriesApi, CandlestickData, Time, ColorType, CandlestickSeries } from 'lightweight-charts';
+import { createChart, IChartApi, ISeriesApi, CandlestickData, Time, ColorType, CandlestickSeries, BarSeries, LineSeries } from 'lightweight-charts';
 import { rxBus } from '@/lib/rx-bus';
 import { WhisperWrapper } from './WhisperWrapper';
 import { useTerminalStore } from '@/hooks/useTerminalStore';
@@ -9,11 +9,12 @@ import { useTerminalStore } from '@/hooks/useTerminalStore';
 export const ChartWidget = React.memo(() => {
   const symbol = useTerminalStore((state) => state.symbol);
   const timeframe = useTerminalStore((state) => state.timeframe);
+  const chartType = useTerminalStore((state) => state.chartType);
 
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
-  const seriesRef = useRef<ISeriesApi<'Candlestick'> | null>(null);
-  const currentCandleRef = useRef<CandlestickData | null>(null);
+  const seriesRef = useRef<ISeriesApi<any> | null>(null);
+  const currentCandleRef = useRef<any | null>(null);
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -53,19 +54,32 @@ export const ChartWidget = React.memo(() => {
       autoSize: true,
     });
 
-    const series = chart.addSeries(CandlestickSeries, {
-      upColor: '#10b981',
-      downColor: '#ef4444',
-      borderVisible: false,
-      wickUpColor: '#10b981',
-      wickDownColor: '#ef4444',
-    });
+    let series: ISeriesApi<any>;
+    if (chartType === 'line') {
+      series = chart.addSeries(LineSeries, {
+        color: '#10b981',
+        lineWidth: 2,
+      });
+    } else if (chartType === 'bar') {
+      series = chart.addSeries(BarSeries, {
+        upColor: '#10b981',
+        downColor: '#ef4444',
+      });
+    } else {
+      series = chart.addSeries(CandlestickSeries, {
+        upColor: '#10b981',
+        downColor: '#ef4444',
+        borderVisible: false,
+        wickUpColor: '#10b981',
+        wickDownColor: '#ef4444',
+      });
+    }
 
     chartRef.current = chart;
     seriesRef.current = series;
 
     // Generate initial historical data
-    const initialData: CandlestickData[] = [];
+    const initialData: any[] = [];
     let basePrice = symbol.includes('BTC') ? 65000 : 3500;
     let time = Math.floor(Date.now() / 1000) - 100 * 60; // 100 minutes ago
     for (let i = 0; i < 100; i++) {
@@ -73,13 +87,21 @@ export const ChartWidget = React.memo(() => {
       const close = open + (Math.random() - 0.5) * 20;
       const high = Math.max(open, close) + Math.random() * 10;
       const low = Math.min(open, close) - Math.random() * 10;
-      initialData.push({
-        time: time as Time,
-        open,
-        high,
-        low,
-        close,
-      });
+
+      if (chartType === 'line') {
+        initialData.push({
+          time: time as Time,
+          value: close,
+        });
+      } else {
+        initialData.push({
+          time: time as Time,
+          open,
+          high,
+          low,
+          close,
+        });
+      }
       basePrice = close;
       time += 60; // 1 minute
     }
@@ -120,7 +142,7 @@ export const ChartWidget = React.memo(() => {
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [symbol]);
+  }, [symbol, chartType]);
 
   useEffect(() => {
     const sub = rxBus.getTicks(symbol).subscribe((tick) => {
@@ -132,29 +154,45 @@ export const ChartWidget = React.memo(() => {
 
       // Update current candle or create new one if 1 minute passed
       if (tickTime >= candleTime + 60) {
-        const newCandle: CandlestickData = {
-          time: tickTime as Time,
-          open: currentCandle.close,
-          high: Math.max(currentCandle.close, tick.price),
-          low: Math.min(currentCandle.close, tick.price),
-          close: tick.price,
-        };
+        let newCandle: any;
+        if (chartType === 'line') {
+          newCandle = {
+            time: tickTime as Time,
+            value: tick.price,
+          };
+        } else {
+          newCandle = {
+            time: tickTime as Time,
+            open: currentCandle.close || currentCandle.value, // fallback for lines -> candle switches mid-tick
+            high: Math.max(currentCandle.close || currentCandle.value, tick.price),
+            low: Math.min(currentCandle.close || currentCandle.value, tick.price),
+            close: tick.price,
+          };
+        }
         seriesRef.current.update(newCandle);
         currentCandleRef.current = newCandle;
       } else {
-        const updatedCandle: CandlestickData = {
-          ...currentCandle,
-          high: Math.max(currentCandle.high, tick.price),
-          low: Math.min(currentCandle.low, tick.price),
-          close: tick.price,
-        };
+        let updatedCandle: any;
+        if (chartType === 'line') {
+          updatedCandle = {
+            ...currentCandle,
+            value: tick.price,
+          };
+        } else {
+          updatedCandle = {
+            ...currentCandle,
+            high: Math.max(currentCandle.high, tick.price),
+            low: Math.min(currentCandle.low, tick.price),
+            close: tick.price,
+          };
+        }
         seriesRef.current.update(updatedCandle);
         currentCandleRef.current = updatedCandle;
       }
     });
 
     return () => sub.unsubscribe();
-  }, [symbol]);
+  }, [symbol, chartType]);
 
   return (
     <WhisperWrapper symbol={symbol}>

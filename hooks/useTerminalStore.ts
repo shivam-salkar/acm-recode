@@ -12,6 +12,8 @@ interface TerminalState {
   setSymbol: (symbol: string) => void;
   timeframe: string;
   setTimeframe: (timeframe: string) => void;
+  chartType: string;
+  setChartType: (chartType: string) => void;
   activeTool: number | null;
   setActiveTool: (index: number | null) => void;
   isSearchOpen: boolean;
@@ -35,6 +37,8 @@ export const useTerminalStore = create<TerminalState>((set) => ({
   setSymbol: (symbol) => set({ symbol }),
   timeframe: '1m',
   setTimeframe: (timeframe) => set({ timeframe }),
+  chartType: 'candle',
+  setChartType: (chartType) => set({ chartType }),
   activeTool: null,
   setActiveTool: (activeTool) => set({ activeTool }),
   isSearchOpen: false,

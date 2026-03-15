@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Activity, BarChart2, Cpu, Crosshair, ExternalLink, ShieldAlert, Zap, LayoutGrid } from 'lucide-react';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
 
 export default function LandingPage() {
@@ -73,9 +74,9 @@ export default function LandingPage() {
 
   const stagger = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 } 
+      transition: { staggerChildren: 0.1 }
     }
   };
 
@@ -137,12 +138,8 @@ export default function LandingPage() {
         </div>
         <div className="flex items-center space-x-6">
           <Link href="#features" className="text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors hidden sm:block">Features</Link>
-          <Link
-            href="/terminal"
-            className="flex items-center space-x-2 bg-[#2A2E39] hover:bg-[#A0AEC0] text-gray-200 hover:text-[#0B0E11] transition-all px-4 py-2 rounded-md font-semibold text-sm group"
-          >
-            <span>Launch App</span>
-            <ExternalLink size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          <Link href="/terminal">
+            <InteractiveHoverButton text="Launch App" className="h-10 text-sm" />
           </Link>
         </div>
       </nav>
@@ -161,8 +158,8 @@ export default function LandingPage() {
           Next-Generation Market Intelligence
         </motion.div>
 
-        <motion.h1 
-          variants={fadeIn} 
+        <motion.h1
+          variants={fadeIn}
           className="text-7xl sm:text-9xl md:text-[12rem] lg:text-[15rem] font-black tracking-[-0.05em] mb-8 leading-[0.85] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl font-[family-name:var(--font-compact)]"
         >
           DEEPTRADE
@@ -173,13 +170,10 @@ export default function LandingPage() {
         </motion.p>
 
         <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center gap-4">
-          <Link
-            href="/terminal"
-            className="w-full sm:w-auto px-8 py-4 bg-[#A0AEC0] text-[#0B0E11] rounded-lg font-bold text-lg hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(160,174,192,0.2)] hover:shadow-[0_0_30px_rgba(160,174,192,0.4)]"
-          >
-            Launch Terminal
+          <Link href="/terminal">
+            <InteractiveHoverButton text="Launch Terminal" className="w-56" />
           </Link>
-          <a href="#features" className="w-full sm:w-auto px-8 py-4 border border-[#2A2E39] text-gray-300 rounded-lg font-semibold text-lg hover:border-gray-500 hover:bg-[#131722] transition-colors text-center">
+          <a href="#features" className="w-full sm:w-auto px-8 py-2 border border-[#2A2E39] text-gray-300 rounded-full font-semibold text-sm hover:border-gray-500 hover:bg-[#131722] transition-colors text-center">
             Explore Features
           </a>
         </motion.div>
@@ -238,7 +232,7 @@ export default function LandingPage() {
 
               {/* Background Glow (Aura) */}
               <div className="absolute inset-0 bg-[#A0AEC0] opacity-0 group-hover:opacity-20 blur-[60px] rounded-full scale-110 transition-opacity duration-700 pointer-events-none -z-10" />
-              
+
               {/* Card Content Container */}
               <div className="relative p-6 rounded-xl bg-[#131722]/95 backdrop-blur border border-[#2A2E39] group-hover:border-transparent group-hover:bg-[#1a1e2b]/95 transition-all h-full flex flex-col z-10 m-[1px]">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 ease-in-out">

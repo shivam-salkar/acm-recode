@@ -64,7 +64,7 @@ function BootAnimation({ onComplete }: { onComplete: () => void }) {
           <Activity size={32} className="text-[#A0AEC0]" />
           <h1 className="text-3xl font-bold tracking-[0.2em]">DEEPTRADE</h1>
         </motion.div>
-        
+
         <div className="space-y-2 text-sm md:text-base h-64">
           {bootText.map((text, i) => (
             <motion.div
@@ -78,8 +78,8 @@ function BootAnimation({ onComplete }: { onComplete: () => void }) {
             </motion.div>
           ))}
           {bootText.length < 6 && (
-            <motion.div 
-              animate={{ opacity: [1, 0] }} 
+            <motion.div
+              animate={{ opacity: [1, 0] }}
               transition={{ repeat: Infinity, duration: 0.8 }}
               className="w-3 h-5 bg-[#A0AEC0] mt-2 inline-block"
             />
@@ -94,6 +94,7 @@ export default function Home() {
   const {
     symbol, setSymbol,
     timeframe, setTimeframe,
+    chartType, setChartType,
     activeTool, setActiveTool,
     isSearchOpen, setSearchOpen,
     isSettingsOpen, setSettingsOpen,
@@ -150,6 +151,16 @@ export default function Home() {
               </button>
             ))}
             <div className="w-px h-4 bg-[#2A2E39]" />
+            <select
+              value={chartType}
+              onChange={(e) => setChartType(e.target.value)}
+              className="bg-transparent border-none text-gray-400 hover:text-gray-200 cursor-pointer focus:outline-none transition-colors"
+            >
+              <option value="candle" className="bg-[#131722]">Candles</option>
+              <option value="bar" className="bg-[#131722]">Bars</option>
+              <option value="line" className="bg-[#131722]">Line</option>
+            </select>
+            <div className="w-px h-4 bg-[#2A2E39]" />
             <button className="flex items-center space-x-1 hover:text-gray-200 transition-colors">
               <BarChart2 size={14} />
               <span>Indicators</span>
@@ -195,22 +206,23 @@ export default function Home() {
         </div>
 
         <div className="flex items-center space-x-4 text-gray-400">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setNotificationsOpen(!isNotificationsOpen)}
-            className={`transition-colors relative ${isNotificationsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
-          >
-            <Bell size={16} />
-            {notifications.length > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] text-white">
-                {notifications.length}
-              </span>
-            )}
+          <div className="relative flex items-center">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setNotificationsOpen(!isNotificationsOpen)}
+              className={`transition-colors relative ${isNotificationsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
+            >
+              <Bell size={16} />
+              {notifications.length > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] text-white">
+                  {notifications.length}
+                </span>
+              )}
+            </motion.button>
             {isNotificationsOpen && (
               <div
                 className="absolute top-8 right-0 w-64 bg-[#131722] border border-[#2A2E39] p-0 text-xs rounded shadow-2xl text-left z-50 overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-center bg-[#1E222D] px-3 py-2 border-b border-[#2A2E39]">
                   <span className="font-semibold text-gray-200">Notifications</span>
@@ -249,17 +261,19 @@ export default function Home() {
                 </div>
               </div>
             )}
-          </motion.button>
+          </div>
 
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setSettingsOpen(!isSettingsOpen)}
-            className={`transition-colors relative ${isSettingsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
-          >
-            <Settings size={16} />
+          <div className="relative flex items-center">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSettingsOpen(!isSettingsOpen)}
+              className={`transition-colors relative ${isSettingsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
+            >
+              <Settings size={16} />
+            </motion.button>
             {isSettingsOpen && (
-              <div className="absolute top-6 right-0 w-48 bg-[#131722] border border-[#2A2E39] text-xs rounded shadow-2xl text-left z-50 py-1 overflow-hidden" onClick={e => e.stopPropagation()}>
+              <div className="absolute top-6 right-0 w-48 bg-[#131722] border border-[#2A2E39] text-xs rounded shadow-2xl text-left z-50 py-1 overflow-hidden">
                 <div className="px-3 py-2 text-gray-500 font-semibold border-b border-[#2A2E39]">Settings</div>
                 <div className="flex flex-col">
                   <div onClick={() => { setActiveSettingsTab('trading'); setSettingsOpen(false); }} className="px-3 py-2 hover:bg-[#2A2E39] cursor-pointer transition-colors text-gray-300 hover:text-white flex justify-between">Trading Defaults <span>❯</span></div>
@@ -281,7 +295,7 @@ export default function Home() {
                 </div>
               </div>
             )}
-          </motion.button>
+          </div>
 
           <motion.button
             whileHover={{ scale: 1.1 }}
