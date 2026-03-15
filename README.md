@@ -13,7 +13,9 @@
   <br />
   <br />
 
-  <img src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" alt="DeepTrade Banner" width="100%" style="border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.5);" />
+  <div style="overflow: hidden; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px;">
+    <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/showcase.webm" width="100%" alt="DeepTrade Showcase" />
+  </div>
 
   <br />
 
@@ -112,7 +114,11 @@ The terminal is divided into **independent analytical panels**, such as:
 
 | Landing Page | Terminal Dashboard |
 | :---: | :---: |
-| <img src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" width="100%" /> | *Coming Soon* |
+| <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/home.png" width="100%" /> | <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/terminal.png" width="100%" /> |
+
+| Features | About Section |
+| :---: | :---: |
+| <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/feat.png" width="100%" /> | <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/about.png" width="100%" /> |
 
 ---
 

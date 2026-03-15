@@ -190,9 +190,18 @@ export default function LandingPage() {
             <div className="w-3 h-3 rounded-full bg-green-500/80" />
             <div className="ml-4 pl-4 border-l border-[#2A2E39] text-xs font-mono text-gray-500">deep-trade/terminal</div>
           </div>
-          {/* Mock Terminal Body */}
-          <div className="aspect-[16/9] w-full bg-[linear-gradient(rgba(42,46,57,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(42,46,57,0.5)_1px,transparent_1px)] bg-[size:30px_30px] opacity-20 relative flex items-center justify-center">
-            <Activity size={120} className="text-[#A0AEC0] opacity-50 absolute" />
+          {/* Mock Terminal Body - Video Showcase */}
+          <div className="aspect-[16/9] w-full bg-[#0B0E11] relative overflow-hidden">
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="w-full h-full object-cover scale-[1.12] -translate-y-[8%]"
+            >
+              <source src="/showcase.webm" type="video/webm" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11]/40 to-transparent pointer-events-none" />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E11] via-transparent to-transparent pointer-events-none" />
         </motion.div>
