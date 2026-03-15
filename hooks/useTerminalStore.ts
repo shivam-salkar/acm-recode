@@ -1,5 +1,12 @@
 import { create } from 'zustand';
 
+export interface NotificationItem {
+  id: string;
+  message: string;
+  timestamp: number;
+  type?: string;
+}
+
 interface TerminalState {
   symbol: string;
   setSymbol: (symbol: string) => void;
@@ -17,6 +24,10 @@ interface TerminalState {
   setProfileOpen: (open: boolean) => void;
   layoutAction: any;
   setLayoutAction: (action: any) => void;
+  notifications: NotificationItem[];
+  addNotification: (notification: NotificationItem) => void;
+  clearNotifications: () => void;
+  removeNotification: (id: string) => void;
 }
 
 export const useTerminalStore = create<TerminalState>((set) => ({
@@ -36,4 +47,8 @@ export const useTerminalStore = create<TerminalState>((set) => ({
   setProfileOpen: (isProfileOpen) => set({ isProfileOpen }),
   layoutAction: null,
   setLayoutAction: (layoutAction) => set({ layoutAction }),
+  notifications: [],
+  addNotification: (notification) => set((state) => ({ notifications: [notification, ...state.notifications] })),
+  clearNotifications: () => set({ notifications: [] }),
+  removeNotification: (id) => set((state) => ({ notifications: state.notifications.filter(n => n.id !== id) })),
 }));

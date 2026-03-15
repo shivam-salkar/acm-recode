@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { rxBus, AnomalyEvent } from '@/lib/rx-bus';
 import { AlertTriangle } from 'lucide-react';
+import { useTerminalStore } from '@/hooks/useTerminalStore';
 
 interface WhisperWrapperProps {
   symbol?: string;
@@ -12,12 +13,41 @@ interface WhisperWrapperProps {
 
 export function WhisperWrapper({ symbol, children }: WhisperWrapperProps) {
   const [anomaly, setAnomaly] = useState<AnomalyEvent | null>(null);
+  const addNotification = useTerminalStore((state) => state.addNotification);
+
+  const playAlertSound = () => {
+    try {
+      const AudioContextCtor = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContextCtor) return;
+      const ctx = new AudioContextCtor();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(440, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.3);
+    } catch (e) {
+      console.error("Audio error", e);
+    }
+  };
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const sub = symbol
       ? rxBus.getAnomalies(symbol).subscribe((event) => {
         setAnomaly(event);
+        playAlertSound();
+        addNotification({
+          id: Date.now().toString() + Math.random(),
+          message: `Alert: ${event.type.replace('_', ' ')}`,
+          timestamp: Date.now(),
+          type: 'alert'
+        });
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => setAnomaly(null), 2500);
       })

@@ -71,13 +71,17 @@ export default function LandingPage() {
     fetchMarketData();
   }, []);
 
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.1 } 
+    }
+  };
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
-  const stagger = {
-    visible: { transition: { staggerChildren: 0.1 } }
   };
 
   return (
@@ -122,6 +126,9 @@ export default function LandingPage() {
 
       <div className="absolute top-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#A0AEC0]/5 via-transparent to-transparent z-0 pointer-events-none" />
 
+      {/* Intense Center Highlight Glow */}
+      <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#A0AEC0]/20 rounded-full blur-[100px] md:blur-[150px] pointer-events-none z-0 mix-blend-screen" />
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 h-16 border-b border-[#2A2E39] bg-[#0B0E11]/80 backdrop-blur-md z-50 flex items-center justify-between px-6 lg:px-12">
         <div className="flex items-center space-x-2 text-[#A0AEC0] font-bold tracking-widest uppercase text-lg">
@@ -149,20 +156,19 @@ export default function LandingPage() {
       >
         <motion.div
           variants={fadeIn}
-          className="mb-8 inline-flex items-center gap-3 rounded-full border border-[#2A2E39] bg-[#131722]/80 px-6 py-3 backdrop-blur-sm"
+          className="mb-8 tracking-[0.2em] md:tracking-[0.4em] uppercase text-sm md:text-base text-[#A0AEC0] font-semibold"
         >
-          <Activity size={24} className="text-[#A0AEC0]" />
-          <span className="text-[2rem] font-bold tracking-widest uppercase text-[#A0AEC0]">DeepTrade</span>
+          Next-Generation Market Intelligence
         </motion.div>
 
-        <motion.h1 variants={fadeIn} className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-          Next-Generation Market <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">
-            Intelligence Terminal
-          </span>
+        <motion.h1 
+          variants={fadeIn} 
+          className="text-7xl sm:text-9xl md:text-[12rem] lg:text-[15rem] font-black tracking-[-0.05em] mb-8 leading-[0.85] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl font-[family-name:var(--font-compact)]"
+        >
+          DEEPTRADE
         </motion.h1>
 
-        <motion.p variants={fadeIn} className="text-lg lg:text-xl text-gray-400 max-w-2xl mb-12 font-light leading-relaxed">
+        <motion.p variants={fadeIn} className="text-lg md:text-2xl text-gray-400 max-w-3xl mb-12 font-light leading-relaxed">
           Harness the power of real-time multi-asset parsing, adaptive AI anomaly detection, and fully customizable drag-and-drop workspaces engineered for high-frequency trading.
         </motion.p>
 
@@ -205,7 +211,8 @@ export default function LandingPage() {
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">Everything you need to analyze, trace, and execute efficiently—built directly into your browser with zero latency compromise.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {[
             { icon: LayoutGrid, title: 'Flexible Workspaces', desc: 'Drag, drop, tear-out, and resize panes infinitely to fit your unique dual-monitor workflow.' },
             { icon: Zap, title: 'Real-time WebSocket', desc: 'Ultra-low latency data streaming powered by highly optimized RxJS internal messaging.' },
@@ -221,13 +228,25 @@ export default function LandingPage() {
               whileHover={{ y: -8, scale: 1.01 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="p-6 rounded-xl bg-[#131722]/80 backdrop-blur border border-[#2A2E39] hover:border-[#A0AEC0]/40 hover:bg-[#1a1e2b] transition-all group"
+              className="relative p-[1px] rounded-xl group h-full flex flex-col"
             >
-              <div className="w-12 h-12 rounded-lg bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
-                <feature.icon size={24} />
+              {/* Spinning Glow Border Layer */}
+              <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+                <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_60%,#A0AEC0_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_60%,#A0AEC0_100%)] opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-200">{feature.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm">{feature.desc}</p>
+
+              {/* Background Glow (Aura) */}
+              <div className="absolute inset-0 bg-[#A0AEC0] opacity-0 group-hover:opacity-20 blur-[60px] rounded-full scale-110 transition-opacity duration-700 pointer-events-none -z-10" />
+              
+              {/* Card Content Container */}
+              <div className="relative p-6 rounded-xl bg-[#131722]/95 backdrop-blur border border-[#2A2E39] group-hover:border-transparent group-hover:bg-[#1a1e2b]/95 transition-all h-full flex flex-col z-10 m-[1px]">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 ease-in-out">
+                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold mb-3 text-gray-200">{feature.title}</h3>
+                <p className="text-gray-400 leading-relaxed text-sm flex-grow">{feature.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>

@@ -99,7 +99,8 @@ export default function Home() {
     isSettingsOpen, setSettingsOpen,
     isNotificationsOpen, setNotificationsOpen,
     isProfileOpen, setProfileOpen,
-    setLayoutAction
+    setLayoutAction,
+    notifications, clearNotifications, removeNotification
   } = useTerminalStore();
 
   const [activeSettingsTab, setActiveSettingsTab] = useState<string | null>(null);
@@ -201,7 +202,53 @@ export default function Home() {
             className={`transition-colors relative ${isNotificationsOpen ? 'text-[#A0AEC0]' : 'hover:text-gray-200'}`}
           >
             <Bell size={16} />
-            {isNotificationsOpen && <div className="absolute top-6 right-0 w-48 bg-[#131722] border border-[#2A2E39] p-2 text-xs rounded shadow-xl text-left z-50">No new notifications</div>}
+            {notifications.length > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] text-white">
+                {notifications.length}
+              </span>
+            )}
+            {isNotificationsOpen && (
+              <div
+                className="absolute top-8 right-0 w-64 bg-[#131722] border border-[#2A2E39] p-0 text-xs rounded shadow-2xl text-left z-50 overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between items-center bg-[#1E222D] px-3 py-2 border-b border-[#2A2E39]">
+                  <span className="font-semibold text-gray-200">Notifications</span>
+                  {notifications.length > 0 && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); clearNotifications(); }}
+                      className="text-[#F23645] hover:text-red-400 text-[10px]"
+                    >
+                      Clear All
+                    </button>
+                  )}
+                </div>
+                <div className="max-h-64 overflow-y-auto w-full">
+                  {notifications.length === 0 ? (
+                    <div className="p-4 text-center text-gray-500">No new notifications</div>
+                  ) : (
+                    notifications.map((notif) => (
+                      <div key={notif.id} className="p-3 border-b border-[#2A2E39] last:border-0 hover:bg-[#1E222D] flex justify-between items-start group">
+                        <div className="flex flex-col gap-1">
+                          <span className={notif.type === 'alert' ? 'text-[#F23645] font-medium' : 'text-gray-300'}>
+                            {notif.message}
+                          </span>
+                          <span className="text-[10px] text-gray-500">
+                            {new Date(notif.timestamp).toLocaleTimeString()}
+                          </span>
+                        </div>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); removeNotification(notif.id); }}
+                          className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-gray-300 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </motion.button>
 
           <motion.button
