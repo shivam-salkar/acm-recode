@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/landing.png" width="100%" alt="DeepTrade Banner" />
+  <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/banner.jpeg" width="100%" alt="DeepTrade Banner" />
 
   <br />
   <br />
@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Status-MVP_Complete-success?style=for-the-badge&logo=adguard&logoColor=white" alt="Status MVP" />
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Hackathon-ACM_ReCode-8A2BE2?style=for-the-badge&logo=rocket&logoColor=white" alt="ACM ReCode" />
+    <img src="https://img.shields.io/badge/Hackathon-ACM_Recode_MPSTME-8A2BE2?style=for-the-badge&logo=rocket&logoColor=white" alt="ACM Recode MPSTME" />
   </a>
   <a href="#">
     <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=git&logoColor=white" alt="License MIT" />
@@ -19,7 +19,9 @@
   <br />
 
   <div style="overflow: hidden; border-radius: 10px; box-shadow: 0px 4px 20px rgba(0,0,0,0.5); margin-bottom: 20px;">
-    <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/showcase.webm" width="100%" alt="DeepTrade Showcase" />
+    <a href="https://acm-recode.vercel.app">
+      <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/showcase.webm" width="100%" alt="DeepTrade Showcase" />
+    </a>
   </div>
 
   <br />
@@ -43,7 +45,7 @@
 
 > *"Markets never sleep. Analysts need tools that move just as fast."*
 
-**DeepTrade** was built as part of the **ACM ReCode Hackathon challenge**, where the goal was to redesign and rebuild modern analytical interfaces.
+**DeepTrade** was built as part of the **ACM Recode MPSTME Hackathon challenge**, where the goal was to redesign and rebuild modern analytical interfaces.
 
 Instead of building a static dashboard, we created a **dynamic terminal environment** where information streams continuously and multiple panels react to market signals in real time.
 
@@ -182,6 +184,6 @@ H --> I[Reactive UI Update]
 
 ---
 <div align="center">
-  Built with 💙 for the <b>ACM ReCode Hackathon</b>
+  Built with 💙 for the <b>ACM Recode MPSTME Hackathon</b>
 </div>
 

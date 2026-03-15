@@ -303,11 +303,11 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6">
               <Trophy size={16} />
-              <span>ACM Recode Hackathon 2026</span>
+              <span>ACM Recode MPSTME Hackathon 2026</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-200">Built for the Future of Trading</h2>
             <p className="text-gray-400 max-w-3xl mx-auto text-lg leading-relaxed">
-              DeepTrade was engineered specifically for the <a href="https://fest.mpstmeacm.com/recode/round-1/problem-statement" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition-colors font-medium underline underline-offset-4">ACM Recode Hackathon</a>.
+              DeepTrade was engineered specifically for the <a href="https://fest.mpstmeacm.com/recode/round-1/problem-statement" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition-colors font-medium underline underline-offset-4">ACM Recode MPSTME Hackathon</a>.
               Our architecture and interface aggressively align with the visionary visual identity of <a href="https://mpstmeacm.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition-colors font-medium underline underline-offset-4">MPSTME ACM</a>, pushing the boundaries of web-based terminal design.
             </p>
           </motion.div>
