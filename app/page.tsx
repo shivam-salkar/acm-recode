@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, BarChart2, Cpu, Crosshair, ExternalLink, ShieldAlert, Zap, LayoutGrid } from 'lucide-react';
+import { Activity, BarChart2, Cpu, Crosshair, ExternalLink, ShieldAlert, Zap, LayoutGrid, Trophy, Code2, GraduationCap, Github, Linkedin, Award, Terminal as TerminalIcon, Database, Braces, Binary, Globe, Users } from 'lucide-react';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import Link from 'next/link';
 
@@ -245,6 +245,131 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+
+      {/* About Section Wrapper */}
+      <div className="relative w-full overflow-hidden bg-[#0B0E11] z-10 border-t border-[#2A2E39]">
+        {/* Floating Background Elements (Constrained to About Section) */}
+        <div className="absolute inset-0 z-[1] pointer-events-none">
+          {[
+            { Icon: GraduationCap, top: '15%', left: '10%', delay: 0 },
+            { Icon: Code2, top: '25%', left: '85%', delay: 1 },
+            { Icon: Users, top: '65%', left: '5%', delay: 2 },
+            { Icon: Database, top: '75%', left: '90%', delay: 3 },
+            { Icon: TerminalIcon, top: '45%', left: '80%', delay: 4 },
+            { Icon: Braces, top: '85%', left: '15%', delay: 2.5 },
+            { Icon: Cpu, top: '55%', left: '12%', delay: 1.5 },
+            { Icon: Award, top: '35%', left: '40%', delay: 0.5 },
+            { Icon: Binary, top: '80%', left: '50%', delay: 3.5 },
+            { Icon: Globe, top: '10%', left: '60%', delay: 1.2 },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              className="absolute text-blue-400/50 drop-shadow-[0_0_10px_rgba(96,165,250,0.4)]"
+              style={{ top: item.top, left: item.left }}
+              animate={{
+                y: [0, -30, 0],
+                rotate: [0, 10, -10, 0],
+                opacity: [0.3, 0.7, 0.3]
+              }}
+              transition={{
+                duration: 8 + (i % 4) * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: item.delay
+              }}
+            >
+              <item.Icon size={56 + (i % 3) * 16} />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* About Section Content */}
+        <section id="about" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 text-center flex flex-col items-center"
+          >
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6">
+              <Trophy size={16} />
+              <span>ACM Recode Hackathon 2026</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-200">Built for the Future of Trading</h2>
+            <p className="text-gray-400 max-w-3xl mx-auto text-lg leading-relaxed">
+              DeepTrade was engineered specifically for the <a href="https://fest.mpstmeacm.com/recode/round-1/problem-statement" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition-colors font-medium underline underline-offset-4">ACM Recode Hackathon</a>.
+              Our architecture and interface aggressively align with the visionary visual identity of <a href="https://mpstmeacm.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 transition-colors font-medium underline underline-offset-4">MPSTME ACM</a>, pushing the boundaries of web-based terminal design.
+            </p>
+          </motion.div>
+
+          <div className="flex justify-center mt-8">
+            {/* Team Helloworld Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="w-full max-w-5xl bg-[#131722]/80 backdrop-blur border border-[#2A2E39] rounded-2xl p-6 md:p-10 relative overflow-hidden"
+            >
+              {/* Subtle Top Border Gradient */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#A0AEC0]/40 to-transparent" />
+
+              <div className="flex flex-col md:flex-row items-center justify-around gap-8 md:gap-12">
+                <div className="text-center md:text-left flex-shrink-0">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-200 mb-2 flex flex-col sm:flex-row items-center gap-3">
+                    <span>Team</span>
+                    <span className="font-mono px-4 py-1.5 bg-[#090b10] border border-[#2A2E39] rounded-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                      helloworld
+                    </span>
+                  </h3>
+                  <p className="text-gray-500 text-sm tracking-wide mt-3 md:mt-0">FOUNDERS & CORE DEVELOPERS</p>
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-x-10 gap-y-8 relative z-10 w-full md:w-auto mt-6 md:mt-0">
+                  {[
+                    {
+                      name: 'Shivam Salkar',
+                      role: 'Team Lead',
+                      initials: 'SS',
+                      github: 'https://github.com/shivam-salkar',
+                      linkedin: 'https://www.linkedin.com/in/shivam-salkar/'
+                    },
+                    {
+                      name: 'Srushti Gaikwad',
+                      role: 'Developer',
+                      initials: 'SG',
+                      github: 'https://github.com/tech162',
+                      linkedin: 'https://www.linkedin.com/in/srushti-gaikwad-6620b9376/'
+                    },
+                    {
+                      name: 'Soham Yadav',
+                      role: 'Developer',
+                      initials: 'SY',
+                      github: 'https://github.com/Dynapar',
+                      linkedin: 'https://www.linkedin.com/in/soham-yadav-8bb7aa379/'
+                    }
+                  ].map((member, i) => (
+                    <div key={i} className="group flex flex-col items-center text-center space-y-4 transition-all duration-300 hover:-translate-y-1">
+                      <div className="w-16 h-16 rounded-full bg-[#0B0E11] flex items-center justify-center text-lg font-bold text-gray-200 border border-[#2A2E39] group-hover:border-blue-500/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all">
+                        {member.initials}
+                      </div>
+                      <div>
+                        <span className="block font-bold text-gray-200 group-hover:text-white transition-colors text-[15px]">{member.name}</span>
+                        <span className="block text-[11px] font-semibold text-blue-400 uppercase tracking-[0.15em] mt-1">{member.role}</span>
+                        <div className="mt-3 flex justify-center space-x-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                          <a href={member.github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" title="GitHub"><Github size={20} /></a>
+                          <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#0A66C2] transition-colors" title="LinkedIn"><Linkedin size={20} /></a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </div>
 
       {/* Footer */}
       <footer className="border-t border-[#2A2E39] py-12 px-6 lg:px-12 text-center text-gray-500 z-10 relative bg-[#0B0E11]">
