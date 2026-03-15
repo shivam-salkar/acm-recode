@@ -8,41 +8,6 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   const [candles, setCandles] = useState<{ x: number, o: number, c: number, h: number, l: number, up: boolean }[]>([]);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    // Force a scroll calculation on any event
-    const handleScroll = () => {
-      // Get the current scroll position relative to the viewport
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      // Get total scrollable height
-      const docHeight = Math.max(
-        document.body.scrollHeight, document.documentElement.scrollHeight,
-        document.body.offsetHeight, document.documentElement.offsetHeight,
-        document.body.clientHeight, document.documentElement.clientHeight
-      );
-      const winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      const totalHeight = docHeight - winHeight;
-      
-      const progress = totalHeight > 0 ? scrollTop / totalHeight : 0;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-    
-    // Initial calculation
-    handleScroll();
-    
-    // Fallback runner to ensure it updates even if events miss
-    const interval = setInterval(handleScroll, 100);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     async function fetchMarketData() {
@@ -122,30 +87,6 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen bg-[#0B0E11] text-gray-200 font-sans selection:bg-[#A0AEC0] selection:text-[#0B0E11] overflow-x-hidden relative">
-      {/* Dynamic Gradient Scrollbar Replacement */}
-      <div className="fixed right-0 top-0 bottom-0 w-3 z-[100] pointer-events-none hidden md:block">
-        <div
-          className="absolute top-0 right-0 left-0 bg-[#A0AEC0]/5 h-full"
-        />
-        <div
-          className="absolute right-0 left-0 bg-gradient-to-b from-transparent via-[#A0AEC0] to-transparent transition-all duration-300 ease-out"
-          style={{
-            height: '25vh',
-            top: `${scrollProgress * 0.75}%`,
-            boxShadow: '0 0 40px 4px rgba(160, 174, 192, 0.6)'
-          }}
-        />
-        {/* Extra intense core line */}
-        <div
-          className="absolute right-[5px] w-[2px] bg-white transition-all duration-300 ease-out"
-          style={{
-            height: '15vh',
-            top: `${(scrollProgress * 0.75) + 5}%`,
-            boxShadow: '0 0 20px 2px white'
-          }}
-        />
-      </div>
-
       <div className="absolute top-0 w-full h-[120vh] z-0 overflow-hidden pointer-events-none">
         {/* Animated Candlestick Chart SVG Background */}
         <motion.div
@@ -304,22 +245,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
-      {/* Custom Global Scrollbar */}
-      <div 
-        className="fixed right-0 top-0 bottom-0 w-1 sm:w-2 z-[99999] pointer-events-none"
-        aria-hidden="true"
-      >
-        <div 
-          className="w-full absolute rounded-full transition-all duration-300 ease-out"
-          style={{ 
-            height: '15vh',
-            transform: `translate3d(0, ${scrollProgress * 85}vh, 0)`,
-            background: 'linear-gradient(to bottom, transparent, #FFFFFF 50%, transparent)',
-            boxShadow: '0 0 20px 2px rgba(255, 255, 255, 0.4)',
-          }}
-        />
-      </div>
 
       {/* Footer */}
       <footer className="border-t border-[#2A2E39] py-12 px-6 lg:px-12 text-center text-gray-500 z-10 relative bg-[#0B0E11]">

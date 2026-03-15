@@ -162,11 +162,6 @@ export default function Home() {
               <option value="line" className="bg-[#131722]">Line</option>
             </select>
             <div className="w-px h-4 bg-[#2A2E39]" />
-            <button className="flex items-center space-x-1 hover:text-gray-200 transition-colors">
-              <BarChart2 size={14} />
-              <span>Indicators</span>
-            </button>
-            <div className="w-px h-4 bg-[#2A2E39]" />
 
             <div className="relative">
               <InteractiveHoverButton onClick={() => setIsAddWidgetOpen(!isAddWidgetOpen)} text="Add Widget" className="h-8 min-w-28 text-[9px] uppercase" />

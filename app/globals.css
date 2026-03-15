@@ -37,15 +37,6 @@
 @layer base {
   * {
     border-color: var(--color-border);
-    /* Disable all default scrollbars except for components that specifically need them */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  *::-webkit-scrollbar {
-    display: none;
-  }
-  body::-webkit-scrollbar {
-    display: none;
   }
   body {
     -ms-overflow-style: none; /* IE and Edge */
