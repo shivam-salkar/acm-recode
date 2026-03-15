@@ -1,5 +1,10 @@
 <div align="center">
 
+  <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/landing.png" width="100%" alt="DeepTrade Banner" />
+
+  <br />
+  <br />
+
   <a href="#">
     <img src="https://img.shields.io/badge/Status-MVP_Complete-success?style=for-the-badge&logo=adguard&logoColor=white" alt="Status MVP" />
   </a>
@@ -114,7 +119,7 @@ The terminal is divided into **independent analytical panels**, such as:
 
 | Landing Page | Terminal Dashboard |
 | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/home.png" width="100%" /> | <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/terminal.png" width="100%" /> |
+| <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/landing.png" width="100%" /> | <img src="https://raw.githubusercontent.com/shivam-salkar/acm-recode/main/public/terminal.png" width="100%" /> |
 
 | Features | About Section |
 | :---: | :---: |
