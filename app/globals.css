@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "flexlayout-react/style/dark.css";
-@import url('https://fonts.cdnfonts.com/css/google-sans');
+@import url("https://fonts.cdnfonts.com/css/google-sans");
 
 @theme {
   --color-background: #09090b;
@@ -22,7 +22,7 @@
   --color-border: #27272a;
   --color-input: #27272a;
   --color-ring: #d4d4d8;
-  
+
   --color-bullish: #10b981;
   --color-bearish: #ef4444;
 
@@ -30,13 +30,26 @@
   --radius-md: calc(0.5rem - 2px);
   --radius-sm: calc(0.5rem - 4px);
 
-  --font-sans: 'Google Sans Medium', 'Google Sans', 'Product Sans', sans-serif;
+  --font-sans: "Google Sans Medium", "Google Sans", "Product Sans", sans-serif;
   --font-mono: var(--font-mono);
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
+    /* Disable all default scrollbars except for components that specifically need them */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
   body {
     background-color: var(--color-background);

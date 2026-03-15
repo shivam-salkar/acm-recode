@@ -21,6 +21,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useTerminalStore } from '@/hooks/useTerminalStore';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 
 function BootAnimation({ onComplete }: { onComplete: () => void }) {
   const [bootText, setBootText] = useState<string[]>([]);
@@ -168,12 +169,7 @@ export default function Home() {
             <div className="w-px h-4 bg-[#2A2E39]" />
 
             <div className="relative">
-              <button
-                onClick={() => setIsAddWidgetOpen(!isAddWidgetOpen)}
-                className="flex items-center space-x-1 hover:text-gray-200 transition-colors"
-              >
-                <span>+ Add Widget</span>
-              </button>
+              <InteractiveHoverButton onClick={() => setIsAddWidgetOpen(!isAddWidgetOpen)} text="Add Widget" className="h-8 min-w-28 text-[9px] uppercase" />
               {isAddWidgetOpen && (
                 <div className="absolute top-8 left-0 w-48 bg-[#131722] border border-[#2A2E39] text-xs rounded shadow-2xl text-left z-50 py-1 overflow-hidden">
                   <div className="px-3 py-2 text-gray-500 font-semibold border-b border-[#2A2E39]">Widgets</div>

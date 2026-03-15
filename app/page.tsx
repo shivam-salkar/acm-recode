@@ -8,6 +8,41 @@ import Link from 'next/link';
 
 export default function LandingPage() {
   const [candles, setCandles] = useState<{ x: number, o: number, c: number, h: number, l: number, up: boolean }[]>([]);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    // Force a scroll calculation on any event
+    const handleScroll = () => {
+      // Get the current scroll position relative to the viewport
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      // Get total scrollable height
+      const docHeight = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+      );
+      const winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      const totalHeight = docHeight - winHeight;
+      
+      const progress = totalHeight > 0 ? scrollTop / totalHeight : 0;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    
+    // Initial calculation
+    handleScroll();
+    
+    // Fallback runner to ensure it updates even if events miss
+    const interval = setInterval(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     async function fetchMarketData() {
@@ -87,6 +122,30 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen bg-[#0B0E11] text-gray-200 font-sans selection:bg-[#A0AEC0] selection:text-[#0B0E11] overflow-x-hidden relative">
+      {/* Dynamic Gradient Scrollbar Replacement */}
+      <div className="fixed right-0 top-0 bottom-0 w-3 z-[100] pointer-events-none hidden md:block">
+        <div
+          className="absolute top-0 right-0 left-0 bg-[#A0AEC0]/5 h-full"
+        />
+        <div
+          className="absolute right-0 left-0 bg-gradient-to-b from-transparent via-[#A0AEC0] to-transparent transition-all duration-300 ease-out"
+          style={{
+            height: '25vh',
+            top: `${scrollProgress * 0.75}%`,
+            boxShadow: '0 0 40px 4px rgba(160, 174, 192, 0.6)'
+          }}
+        />
+        {/* Extra intense core line */}
+        <div
+          className="absolute right-[5px] w-[2px] bg-white transition-all duration-300 ease-out"
+          style={{
+            height: '15vh',
+            top: `${(scrollProgress * 0.75) + 5}%`,
+            boxShadow: '0 0 20px 2px white'
+          }}
+        />
+      </div>
+
       <div className="absolute top-0 w-full h-[120vh] z-0 overflow-hidden pointer-events-none">
         {/* Animated Candlestick Chart SVG Background */}
         <motion.div
@@ -169,7 +228,7 @@ export default function LandingPage() {
           Harness the power of real-time multi-asset parsing, adaptive AI anomaly detection, and fully customizable drag-and-drop workspaces engineered for high-frequency trading.
         </motion.p>
 
-        <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center gap-4">
+        <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center gap-6">
           <Link href="/terminal">
             <InteractiveHoverButton text="Launch Terminal" className="w-56" />
           </Link>
@@ -208,12 +267,12 @@ export default function LandingPage() {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {[
-            { icon: LayoutGrid, title: 'Flexible Workspaces', desc: 'Drag, drop, tear-out, and resize panes infinitely to fit your unique dual-monitor workflow.' },
-            { icon: Zap, title: 'Real-time WebSocket', desc: 'Ultra-low latency data streaming powered by highly optimized RxJS internal messaging.' },
-            { icon: ShieldAlert, title: 'AI Whisper Warnings', desc: 'Real-time anomaly detection identifying spoofing, massive dumps, or erratic behavior automatically.' },
-            { icon: BarChart2, title: 'Advanced Charting', desc: 'Hardware-accelerated rendering utilizing native APIs for unmatched frame rates.' },
-            { icon: Cpu, title: 'Global State Management', desc: 'Synced timeframes and active symbols across every widget locally via Zustand.' },
-            { icon: Crosshair, title: 'Precision Tools', desc: 'Pixel-perfect measuring, trend spotting, and annotation tools embedded right into the UI.' },
+            { icon: LayoutGrid, title: 'Flexible Workspaces', desc: 'Drag, drop, tear-out, and resize panes infinitely to fit your unique dual-monitor workflow.', color: 'text-blue-400', glow: 'shadow-blue-500/20' },
+            { icon: Zap, title: 'Real-time WebSocket', desc: 'Ultra-low latency data streaming powered by highly optimized RxJS internal messaging.', color: 'text-yellow-400', glow: 'shadow-yellow-500/20' },
+            { icon: ShieldAlert, title: 'AI Whisper Warnings', desc: 'Real-time anomaly detection identifying spoofing, massive dumps, or erratic behavior automatically.', color: 'text-red-400', glow: 'shadow-red-500/20' },
+            { icon: BarChart2, title: 'Advanced Charting', desc: 'Hardware-accelerated rendering utilizing native APIs for unmatched frame rates.', color: 'text-emerald-400', glow: 'shadow-emerald-500/20' },
+            { icon: Cpu, title: 'Global State Management', desc: 'Synced timeframes and active symbols across every widget locally via Zustand.', color: 'text-purple-400', glow: 'shadow-purple-500/20' },
+            { icon: Crosshair, title: 'Precision Tools', desc: 'Pixel-perfect measuring, trend spotting, and annotation tools embedded right into the UI.', color: 'text-orange-400', glow: 'shadow-orange-500/20' },
           ].map((feature, i) => (
             <motion.div
               key={i}
@@ -235,7 +294,7 @@ export default function LandingPage() {
 
               {/* Card Content Container */}
               <div className="relative p-6 rounded-xl bg-[#131722]/95 backdrop-blur border border-[#2A2E39] group-hover:border-transparent group-hover:bg-[#1a1e2b]/95 transition-all h-full flex flex-col z-10 m-[1px]">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl bg-[#2A2E39]/50 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#A0AEC0] group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 ease-in-out">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl bg-[#2A2E39]/50 flex items-center justify-center mb-6 ${feature.color} group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 ease-in-out`}>
                   <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold mb-3 text-gray-200">{feature.title}</h3>
@@ -245,6 +304,22 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+
+      {/* Custom Global Scrollbar */}
+      <div 
+        className="fixed right-0 top-0 bottom-0 w-1 sm:w-2 z-[99999] pointer-events-none"
+        aria-hidden="true"
+      >
+        <div 
+          className="w-full absolute rounded-full transition-all duration-300 ease-out"
+          style={{ 
+            height: '15vh',
+            transform: `translate3d(0, ${scrollProgress * 85}vh, 0)`,
+            background: 'linear-gradient(to bottom, transparent, #FFFFFF 50%, transparent)',
+            boxShadow: '0 0 20px 2px rgba(255, 255, 255, 0.4)',
+          }}
+        />
+      </div>
 
       {/* Footer */}
       <footer className="border-t border-[#2A2E39] py-12 px-6 lg:px-12 text-center text-gray-500 z-10 relative bg-[#0B0E11]">
