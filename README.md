@@ -129,6 +129,24 @@ The terminal is divided into **independent analytical panels**, such as:
 
 ---
 
+# • Project Structure
+
+```text
+.
+├── app/               # Next.js App Router (Pages & Layout)
+│   ├── terminal/      # Trading Terminal Dashboard
+│   └── page.tsx       # Landing Page
+├── components/        # React Components
+│   ├── terminal/      # Terminal Specific Widgets
+│   └── ui/            # Reusable UI Components
+├── hooks/             # Custom React Hooks
+├── lib/               # Utility functions & Shared logic
+├── public/            # Static Assets (Images, Videos)
+└── types/             # TypeScript Type Definitions
+```
+
+---
+
 # • Local Setup
 
 1. **Clone the repository:**
